@@ -4,9 +4,7 @@ import ink.ptms.ovile.Ovile
 import ink.ptms.ovile.api.event.OvilePlayerEnterRegionEvent
 import ink.ptms.ovile.api.event.OvilePlayerLeaveRegionEvent
 import org.bukkit.Location
-import org.bukkit.Material
 import org.bukkit.Particle
-import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyParticle
 import taboolib.common.platform.function.adaptPlayer
@@ -27,7 +25,7 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
 
     val id: UUID = UUID.randomUUID()
     val world = min.world!!
-    val defaultBlocks = HashMap<Location, BlockData>()
+    val defaultBlocks = HashMap<Location, RegionBlock>()
     var showExternalPlayers = false
 
     internal val activeRegions = CopyOnWriteArraySet<ActiveRegion>()
@@ -40,11 +38,11 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
         return activeRegions.firstOrNull { it.getPlayers().contains(player) }
     }
 
-    fun getBlock(location: Location): BlockData? {
+    fun getBlock(location: Location): RegionBlock? {
         return defaultBlocks[location]
     }
 
-    fun setBlock(location: Location, data: BlockData?) {
+    fun setBlock(location: Location, data: RegionBlock?) {
         if (data == null) {
             defaultBlocks.remove(location.clone())
         } else {

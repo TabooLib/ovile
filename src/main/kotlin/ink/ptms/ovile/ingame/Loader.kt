@@ -1,11 +1,14 @@
 package ink.ptms.ovile.ingame
 
 import ink.ptms.ovile.Ovile
-import ink.ptms.ovile.ingame.action.PlayerAction
-import ink.ptms.ovile.ingame.action.PlayerRegionAction
+import ink.ptms.ovile.ingame.action.block.BlockAction
+import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
+import ink.ptms.ovile.ingame.action.region.RegionAction
+import ink.ptms.ovile.ingame.action.region.PlayerRegionAction
 import taboolib.common.LifeCycle
 import taboolib.common.inject.Injector
 import taboolib.common.platform.Awake
+import taboolib.module.nms.MinecraftVersion
 import java.util.function.Supplier
 
 /**
@@ -19,8 +22,26 @@ import java.util.function.Supplier
 object Loader : Injector.Classes {
 
     override fun inject(clazz: Class<*>, instance: Supplier<*>) {
-        if (clazz.isAnnotationPresent(PlayerAction::class.java)) {
-            Ovile.registerAction(instance.get() as PlayerRegionAction<*>, clazz.getAnnotation(PlayerAction::class.java).bind.java)
+        when {
+            clazz.isAnnotationPresent(RegionAction::class.java) -> {
+                Ovile.registerRegionAction(instance.get() as PlayerRegionAction<*>, clazz.getAnnotation(RegionAction::class.java).bind.java)
+            }
+            clazz.isAnnotationPresent(BlockAction::class.java) -> {
+                when (clazz.getAnnotation(BlockAction::class.java).version) {
+                    BlockAction.Version.BLOCK_DATA -> {
+                        // 高版本（1.13+）
+                        if (MinecraftVersion.majorLegacy > 11200) {
+                            Ovile.registerBlockAction(instance.get() as PlayerBlockAction)
+                        }
+                    }
+                    BlockAction.Version.BLOCK_STATE -> {
+                        // 低版本（1.13-）
+                        if (MinecraftVersion.majorLegacy < 11300) {
+                            Ovile.registerBlockAction(instance.get() as PlayerBlockAction)
+                        }
+                    }
+                }
+            }
         }
     }
 

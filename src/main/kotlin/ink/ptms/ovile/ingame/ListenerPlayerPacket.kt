@@ -1,16 +1,13 @@
 package ink.ptms.ovile.ingame
 
+import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.api.event.packet.OvilePlayerBlockPlacePacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerDigBlockPacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerUseEntityPacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerUseItemPacket
-import ink.ptms.ovile.ignoreBlockChange
+import ink.ptms.ovile.getActiveRegion
 import ink.ptms.ovile.ingame.nms.NMS
-import ink.ptms.ovile.isIgnoreBlockChange
 import ink.ptms.ovile.refreshBlock
-import net.minecraft.network.protocol.game.PacketPlayOutBlockChange
-import net.minecraft.network.protocol.game.PacketPlayOutMultiBlockChange
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo
 import org.bukkit.Location
 import org.bukkit.util.Vector
 import taboolib.common.platform.event.SubscribeEvent
@@ -18,8 +15,6 @@ import taboolib.common.platform.function.submit
 import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.PacketReceiveEvent
-import taboolib.module.nms.PacketSendEvent
-import taboolib.platform.util.isNotAir
 
 /**
  * Ovile
@@ -29,19 +24,6 @@ import taboolib.platform.util.isNotAir
  * @since 2022/5/1 20:17
  */
 object ListenerPlayerPacket {
-
-//    @SubscribeEvent
-//    fun e(e: PacketSendEvent) {
-//        when (e.packet.name) {
-//            "PacketPlayOutBlockChange" -> {
-//                val vector = NMS.INSTANCE.blockPositionToVector(e.packet.read<Any>("a")!!)
-//                val location = vector.toLocation(e.player.world)
-//                if (e.player.isIgnoreBlockChange(location)) {
-//                    e.isCancelled = true
-//                }
-//            }
-//        }
-//    }
 
     @SubscribeEvent
     fun e(e: PacketReceiveEvent) {
@@ -65,8 +47,13 @@ object ListenerPlayerPacket {
                 }
                 e.isCancelled = true
                 // 刷新方块
-                if (event.isRefreshBlock) {
-                    submit(delay = 1) { e.player.refreshBlock(location) }
+                submit {
+                    val block = event.region?.getBlock<RegionBlock>(location)
+                    if (block != null) {
+                        block.sendTo(e.player, location)
+                    } else {
+                        e.player.refreshBlock(location)
+                    }
                 }
             }
             "PacketPlayInUseItem" -> {
@@ -93,14 +80,23 @@ object ListenerPlayerPacket {
                 }
                 e.isCancelled = true
                 // 刷新方块
-                if (event.isRefreshBlock) {
-                    submit(delay = 1) {
+                submit {
+                    val block = event.region?.getBlock<RegionBlock>(location)
+                    if (block != null) {
+                        block.sendTo(e.player, location)
+                    } else {
                         e.player.refreshBlock(location)
-                        e.player.refreshBlock(location.block.getRelative(direction.toBukkit()).location)
+                    }
+                    val relative = location.block.getRelative(direction.toBukkit()).location
+                    val blockRelative = event.region?.getBlock<RegionBlock>(relative)
+                    if (blockRelative != null) {
+                        blockRelative.sendTo(e.player, relative)
+                    } else {
+                        e.player.refreshBlock(relative)
                     }
                 }
             }
-            "PacketPlayInUseEntity" -> {
+            "PacketPlayInUseEntity_" -> {
                 val entityId = e.packet.read<Int>("a")!!
                 val event: OvilePlayerUseEntityPacket?
                 if (MinecraftVersion.isUniversal) {

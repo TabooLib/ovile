@@ -1,5 +1,6 @@
 package ink.ptms.ovile.api.event.packet
 
+import ink.ptms.ovile.api.ActiveRegion
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
@@ -15,7 +16,7 @@ import taboolib.type.BukkitEquipment
  */
 class OvilePlayerUseItemPacket(val player: Player, val location: Location, val hand: Hand, val direction: Direction) : BukkitProxyEvent() {
 
-    var isRefreshBlock = true
+    var region: ActiveRegion? = null
 
     enum class Hand {
 

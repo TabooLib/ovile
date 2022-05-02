@@ -1,9 +1,7 @@
-package ink.ptms.ovile.ingame.action
+package ink.ptms.ovile.ingame.action.region
 
 import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.Region
-import ink.ptms.ovile.ignoreBlockChange
-import ink.ptms.ovile.refreshBlock
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockPlaceEvent
@@ -15,7 +13,7 @@ import org.bukkit.event.block.BlockPlaceEvent
  * @author 坏黑
  * @since 2022/5/2 10:18
  */
-@PlayerAction(BlockPlaceEvent::class)
+@RegionAction(BlockPlaceEvent::class)
 object PlayerRegionActionBlockPlaceEvent : PlayerRegionAction<BlockPlaceEvent> {
 
     override fun handle(player: Player, location: Location, region: Region, active: ActiveRegion, event: BlockPlaceEvent) {

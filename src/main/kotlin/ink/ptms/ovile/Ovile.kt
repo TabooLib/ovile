@@ -1,7 +1,8 @@
 package ink.ptms.ovile
 
 import ink.ptms.ovile.api.Region
-import ink.ptms.ovile.ingame.action.PlayerRegionAction
+import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
+import ink.ptms.ovile.ingame.action.region.PlayerRegionAction
 import org.bukkit.Location
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.disablePlugin
@@ -14,8 +15,9 @@ import kotlin.math.min
 
 object Ovile : Plugin() {
 
-    internal val actions: MutableMap<Class<*>, MutableList<PlayerRegionAction<*>>> = HashMap()
     internal val regions: MutableMap<String, MutableList<Region>> = ConcurrentHashMap()
+    internal val blockActions: MutableList<PlayerBlockAction> = CopyOnWriteArrayList()
+    internal val regionActions: MutableMap<Class<*>, MutableList<PlayerRegionAction<*>>> = HashMap()
 
     override fun onLoad() {
         if (MinecraftVersion.majorLegacy <= 11200) {
@@ -45,7 +47,11 @@ object Ovile : Plugin() {
         regions[region.world.name]?.remove(region)
     }
 
-    fun registerAction(action: PlayerRegionAction<*>, bind: Class<*>) {
-        actions.computeIfAbsent(bind) { ArrayList() }.add(action)
+    fun registerBlockAction(action: PlayerBlockAction) {
+        blockActions.add(action)
+    }
+
+    fun registerRegionAction(action: PlayerRegionAction<*>, bind: Class<*>) {
+        regionActions.computeIfAbsent(bind) { ArrayList() }.add(action)
     }
 }

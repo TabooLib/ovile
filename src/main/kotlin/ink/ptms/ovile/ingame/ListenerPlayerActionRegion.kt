@@ -6,7 +6,7 @@ import ink.ptms.ovile.api.Region
 import ink.ptms.ovile.api.event.packet.OvilePlayerDigBlockPacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerUseEntityPacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerUseItemPacket
-import ink.ptms.ovile.ingame.action.PlayerRegionAction
+import ink.ptms.ovile.ingame.action.region.PlayerRegionAction
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerBucketFillEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.submit
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
@@ -34,7 +33,7 @@ object ListenerPlayerActionRegion {
         }
         if (region != active?.region) {
             event.isCancelled = true
-            sendAcrossNotify(location)
+            sendRegionNotify(location)
         } else {
             getActions(event.javaClass).forEach { it.handle(this, location, region!!, active!!, event) }
         }
@@ -46,14 +45,14 @@ object ListenerPlayerActionRegion {
         }
         if (region != active?.region) {
             event.isCancelled = true
-            sendAcrossNotify(location)
+            sendRegionNotify(location)
         } else {
             getActions(event.javaClass).forEach { it.handle(this, location, region!!, active!!, event) }
         }
     }
 
     fun getActions(bind: Class<*>): List<PlayerRegionAction<Any>> {
-        return Ovile.actions[bind] as? List<PlayerRegionAction<Any>> ?: emptyList()
+        return Ovile.regionActions[bind] as? List<PlayerRegionAction<Any>> ?: emptyList()
     }
 
     /**
