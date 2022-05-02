@@ -34,10 +34,7 @@ object Ovile : Plugin() {
         // 修正坐标
         val minPos = Location(min.world, min(min.x, max.x), min(min.y, max.y), min(min.z, max.z)).toCenter(0.0)
         val maxPos = Location(max.world, max(min.x, max.x), max(min.y, max.y), max(min.z, max.z)).toCenter(1.0)
-        // 检查重叠
-        if (min.world!!.getRegion(minPos) != null || max.world!!.getRegion(maxPos) != null) {
-            error("Overlap with existing region")
-        }
+        // TODO 检查重叠
         val region = Region(minPos, maxPos)
         regions.computeIfAbsent(min.world!!.name) { CopyOnWriteArrayList() }.add(region)
         return region

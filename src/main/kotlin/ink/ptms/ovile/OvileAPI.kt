@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.TimeUnit
 
 internal val notifyBaffle = Baffle.of(200, TimeUnit.MILLISECONDS)
+
 internal val ignoreBlockChangeMap = ConcurrentHashMap<String, MutableSet<Location>>()
 
 fun World.createRegion(min: Location, max: Location): Region {
