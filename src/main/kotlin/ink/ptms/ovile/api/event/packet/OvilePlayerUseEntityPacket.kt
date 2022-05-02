@@ -1,21 +1,20 @@
 package ink.ptms.ovile.api.event.packet
 
-import org.bukkit.Location
-import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
+import org.bukkit.util.Vector
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.type.BukkitEquipment
 
 /**
  * Ovile
- * ink.ptms.ovile.api.event.OvilePlayerUseItemPacket
+ * ink.ptms.ovile.api.event.OvilePlayerBlockPlacePacket
  *
  * @author 坏黑
  * @since 2022/5/1 20:21
  */
-class OvilePlayerUseItemPacket(val player: Player, val location: Location, val hand: Hand, val direction: Direction) : BukkitProxyEvent() {
+class OvilePlayerUseEntityPacket(val player: Player, val entityId: Int, val action: Action, val hand: Hand?, val location: Vector?) : BukkitProxyEvent() {
 
-    var isRefreshBlock = true
+    val entity by lazy { player.world.entities.firstOrNull { it.entityId == entityId } }
 
     enum class Hand {
 
@@ -29,12 +28,8 @@ class OvilePlayerUseItemPacket(val player: Player, val location: Location, val h
         }
     }
 
-    enum class Direction {
+    enum class Action {
 
-        DOWN, UP, NORTH, SOUTH, WEST, EAST;
-
-        fun toBukkit(): BlockFace {
-            return BlockFace.valueOf(name.uppercase())
-        }
+        ATTACK, INTERACT
     }
 }

@@ -1,5 +1,7 @@
 package ink.ptms.ovile.ingame.nms
 
+import org.bukkit.Location
+import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import taboolib.module.nms.nmsProxy
 
@@ -12,7 +14,11 @@ import taboolib.module.nms.nmsProxy
  */
 abstract class NMS {
 
+    abstract fun sendBlockAction(player: Player, block: Location, a: Int, b: Int)
+
     abstract fun blockPositionToVector(pos: Any): Vector
+
+    abstract fun parseVec3d(obj: Any): Vector
 
     companion object {
 

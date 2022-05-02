@@ -8,14 +8,12 @@ import taboolib.type.BukkitEquipment
 
 /**
  * Ovile
- * ink.ptms.ovile.api.event.OvilePlayerUseItemPacket
+ * ink.ptms.ovile.api.event.OvilePlayerBlockPlacePacket
  *
  * @author 坏黑
  * @since 2022/5/1 20:21
  */
-class OvilePlayerUseItemPacket(val player: Player, val location: Location, val hand: Hand, val direction: Direction) : BukkitProxyEvent() {
-
-    var isRefreshBlock = true
+class OvilePlayerBlockPlacePacket(val player: Player, val hand: Hand) : BukkitProxyEvent() {
 
     enum class Hand {
 
@@ -26,15 +24,6 @@ class OvilePlayerUseItemPacket(val player: Player, val location: Location, val h
                 MAIN_HAND -> BukkitEquipment.HAND
                 OFF_HAND -> BukkitEquipment.OFF_HAND
             }
-        }
-    }
-
-    enum class Direction {
-
-        DOWN, UP, NORTH, SOUTH, WEST, EAST;
-
-        fun toBukkit(): BlockFace {
-            return BlockFace.valueOf(name.uppercase())
         }
     }
 }

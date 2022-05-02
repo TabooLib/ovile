@@ -1,8 +1,12 @@
 package ink.ptms.ovile
 
 import ink.ptms.ovile.api.Region
+import ink.ptms.ovile.ingame.action.PlayerRegionAction
 import org.bukkit.Location
 import taboolib.common.platform.Plugin
+import taboolib.common.platform.function.disablePlugin
+import taboolib.common.platform.function.warning
+import taboolib.module.nms.MinecraftVersion
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.max
@@ -10,7 +14,15 @@ import kotlin.math.min
 
 object Ovile : Plugin() {
 
+    internal val actions: MutableMap<Class<*>, MutableList<PlayerRegionAction<*>>> = HashMap()
     internal val regions: MutableMap<String, MutableList<Region>> = ConcurrentHashMap()
+
+    override fun onLoad() {
+        if (MinecraftVersion.majorLegacy <= 11200) {
+            warning("Ovile requires Minecraft 1.12 or higher.")
+            disablePlugin()
+        }
+    }
 
     fun create(min: Location, max: Location): Region {
         // 检查世界
@@ -31,5 +43,9 @@ object Ovile : Plugin() {
 
     fun destroy(region: Region) {
         regions[region.world.name]?.remove(region)
+    }
+
+    fun registerAction(action: PlayerRegionAction<*>, bind: Class<*>) {
+        actions.computeIfAbsent(bind) { ArrayList() }.add(action)
     }
 }

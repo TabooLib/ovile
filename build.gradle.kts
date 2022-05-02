@@ -6,7 +6,7 @@ plugins {
 }
 
 taboolib {
-    install("common", "common-5", "module-nms", "module-nms-util", "module-effect", "platform-bukkit")
+    install("common", "common-5", "module-nms", "module-nms-util", "module-effect", "module-lang", "module-chat", "module-configuration", "platform-bukkit")
     classifier = null
     version = "6.0.7-59"
     options("keep-kotlin-module")
@@ -18,8 +18,8 @@ repositories {
 
 dependencies {
     compileOnly("ink.ptms:nms-all:1.0.0")
-    compileOnly("ink.ptms.core:v11802:11802-minimize:universal")
-    compileOnly("ink.ptms.core:v11802:11802-minimize:mapped")
+    compileOnly("ink.ptms.core:v11802:11802:universal")
+    compileOnly("ink.ptms.core:v11802:11802:mapped")
     compileOnly(fileTree("libs"))
 }
 

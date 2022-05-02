@@ -1,6 +1,8 @@
 package ink.ptms.ovile.ingame
 
 import ink.ptms.ovile.getRegion
+import ink.ptms.ovile.ignoreBlockChangeMap
+import ink.ptms.ovile.notifyBaffle
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
@@ -25,6 +27,8 @@ object ListenerPlayerAction {
 
     @SubscribeEvent
     fun e(e: PlayerQuitEvent) {
+        notifyBaffle.reset(e.player.name)
+        ignoreBlockChangeMap.remove(e.player.name)
     }
 
     @SubscribeEvent(priority = EventPriority.MONITOR, ignoreCancelled = true)

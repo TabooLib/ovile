@@ -4,19 +4,20 @@ import ink.ptms.ovile.Ovile
 import ink.ptms.ovile.api.event.OvilePlayerEnterRegionEvent
 import ink.ptms.ovile.api.event.OvilePlayerLeaveRegionEvent
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.Particle
+import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyParticle
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.util.Vector
 import taboolib.module.effect.Cube
-import taboolib.module.effect.Line
 import taboolib.module.effect.ParticleSpawner
+import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.toProxyLocation
 import java.util.*
-import java.util.concurrent.ConcurrentSkipListSet
-import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.CopyOnWriteArraySet
+import kotlin.collections.HashMap
 
 /**
  * @author 坏黑
@@ -26,6 +27,8 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
 
     val id: UUID = UUID.randomUUID()
     val world = min.world!!
+    val defaultBlocks = HashMap<Location, BlockData>()
+    var showExternalPlayers = false
 
     internal val activeRegions = CopyOnWriteArraySet<ActiveRegion>()
 
@@ -35,6 +38,18 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
 
     fun getActiveRegion(player: Player): ActiveRegion? {
         return activeRegions.firstOrNull { it.getPlayers().contains(player) }
+    }
+
+    fun getBlock(location: Location): BlockData? {
+        return defaultBlocks[location]
+    }
+
+    fun setBlock(location: Location, data: BlockData?) {
+        if (data == null) {
+            defaultBlocks.remove(location.clone())
+        } else {
+            defaultBlocks[location.clone()] = data
+        }
     }
 
     fun destroy() {
@@ -47,6 +62,7 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
         if (event.call()) {
             activeRegions.add(event.region)
             event.region.players.add(player)
+            handleEnter(player, event.region)
         }
     }
 
@@ -54,13 +70,26 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
         val activeRegion = getActiveRegion(player) ?: return
         showBorder(player, ProxyParticle.FLAME)
         OvilePlayerLeaveRegionEvent(player, activeRegion).call()
+        handleLeave(player, activeRegion)
         activeRegion.players.remove(player)
         if (activeRegion.players.isEmpty()) {
             activeRegions.remove(activeRegion)
         }
     }
 
-    fun showBorder(player: Player, particle: ProxyParticle) {
+    private fun handleEnter(player: Player, activeRegion: ActiveRegion) {
+        player.world.spawnParticle(Particle.SPELL_WITCH, player.location, 20, 0.1, 0.8, 0.1, 0.0)
+        activeRegion.getExternalPlayers().forEach { it.hidePlayer(BukkitPlugin.getInstance(), player) }
+        activeRegion.displayBlocks(player)
+    }
+
+    private fun handleLeave(player: Player, activeRegion: ActiveRegion) {
+        player.world.spawnParticle(Particle.SPELL_WITCH, player.location, 20, 0.1, 0.8, 0.1, 0.0)
+        activeRegion.getExternalPlayers().forEach { it.showPlayer(BukkitPlugin.getInstance(), player) }
+        activeRegion.destroyBlocks(player)
+    }
+
+    private fun showBorder(player: Player, particle: ProxyParticle) {
         Cube(min.toProxyLocation(), max.toProxyLocation(), object : ParticleSpawner {
 
             override fun spawn(location: taboolib.common.util.Location) {
