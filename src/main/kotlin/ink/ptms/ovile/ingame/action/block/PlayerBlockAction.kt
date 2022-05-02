@@ -4,6 +4,7 @@ import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.RegionBlock
 import org.bukkit.Location
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -16,11 +17,32 @@ import org.bukkit.inventory.ItemStack
  */
 interface PlayerBlockAction {
 
-    fun match(block: RegionBlock): Boolean
-
+    /**
+     * 通过物品判断类型
+     */
     fun match(item: ItemStack): Boolean
 
-    fun breakBlock(player: Player, block: RegionBlock, location: Location, region: ActiveRegion)
+    /**
+     * 通过方块判断类型
+     */
+    fun match(block: RegionBlock): Boolean
 
-    fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion)
+    /**
+     * 破坏方块
+     */
+    fun breakBlock(player: Player, block: RegionBlock, location: Location, region: ActiveRegion) {
+    }
+
+    /**
+     * 放置方块
+     */
+    fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace) {
+    }
+
+    /**
+     * 合并方块（例如：半砖）
+     */
+    fun mergeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace, original: RegionBlock): Boolean {
+        return false
+    }
 }

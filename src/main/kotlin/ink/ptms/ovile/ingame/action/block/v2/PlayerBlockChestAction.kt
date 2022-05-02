@@ -9,6 +9,7 @@ import ink.ptms.ovile.relative
 import ink.ptms.ovile.right
 import org.bukkit.Location
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 import org.bukkit.block.data.type.Chest
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -31,7 +32,7 @@ object PlayerBlockChestAction : PlayerDataMatcher() {
         return item.getBlockData() is Chest
     }
 
-    override fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion) {
+    override fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace) {
         region.setBlock(location, RegionBlock.of(item.type.createBlockData { data ->
             data as Chest
             data.facing = player.facing.oppositeFace

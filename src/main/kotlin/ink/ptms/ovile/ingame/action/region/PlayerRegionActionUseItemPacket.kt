@@ -9,6 +9,7 @@ import ink.ptms.ovile.matchBlockAction
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
+import taboolib.library.xseries.XBlock
 import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.isNotAir
 
@@ -26,6 +27,7 @@ object PlayerRegionActionUseItemPacket : PlayerRegionAction<OvilePlayerUseItemPa
         event.isCancelled = true
         event.region = active
         val blockFace = event.direction.toBukkit()
+        // 判断摆放位置是否位于当前区域
         val relativeLocation = location.block.getRelative(blockFace).location
         val relativeLocationRegion = relativeLocation.getRegion()
         if (relativeLocationRegion != region) {
@@ -34,13 +36,20 @@ object PlayerRegionActionUseItemPacket : PlayerRegionAction<OvilePlayerUseItemPa
         }
         val heldItem = player.heldItem()
         if (heldItem.isNotAir() && heldItem.type.isBlock) {
-            player.sendMessage("摆放方块")
+            // 获取实现
             val matchBlockAction = heldItem.matchBlockAction()
             if (matchBlockAction == null) {
                 player.sendRegionNotify(location, blockFace, "player-action-no-implementation", heldItem.blockActionType())
                 return
             }
-            matchBlockAction.placeBlock(player, heldItem, relativeLocation, active)
+            // 摆放位置存在实体方块则触发合并逻辑
+            val original = active.getBlock(relativeLocation) ?: RegionBlock.of(relativeLocation.block)
+            if (original.material().isSolid) {
+                matchBlockAction.mergeBlock(player, heldItem, relativeLocation, active, blockFace, original)
+            } else {
+                matchBlockAction.placeBlock(player, heldItem, relativeLocation, active, blockFace)
+            }
+            player.sendMessage("摆放方块")
         } else {
             player.sendMessage("交互方块")
         }

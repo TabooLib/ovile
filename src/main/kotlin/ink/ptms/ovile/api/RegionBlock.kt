@@ -15,13 +15,19 @@ import taboolib.module.nms.MinecraftVersion
  * @since 2022/5/2 12:33
  */
 interface RegionBlock {
-    
+
+    fun material(): Material
+
     fun sendTo(player: Player, location: Location)
 
     /**
      * 高版本实现（BlockData）
      */
     class BlockDataImpl(val data: BlockData) : RegionBlock {
+
+        override fun material(): Material {
+            return data.material
+        }
 
         override fun sendTo(player: Player, location: Location) {
             player.sendBlockChange(location, data)
@@ -32,6 +38,10 @@ interface RegionBlock {
      * 低版本实现（BlockState）
      */
     class BlockStateImpl(val material: Material, val data: Int) : RegionBlock {
+
+        override fun material(): Material {
+            return material
+        }
 
         override fun sendTo(player: Player, location: Location) {
             player.sendBlockChange(location, material, data.toByte())

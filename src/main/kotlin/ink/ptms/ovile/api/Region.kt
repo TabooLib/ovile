@@ -25,7 +25,7 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
 
     val id: UUID = UUID.randomUUID()
     val world = min.world!!
-    val defaultBlocks = HashMap<Location, RegionBlock>()
+    val blocks = HashMap<Location, RegionBlock>()
     var showExternalPlayers = false
 
     internal val activeRegions = CopyOnWriteArraySet<ActiveRegion>()
@@ -39,14 +39,14 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
     }
 
     fun getBlock(location: Location): RegionBlock? {
-        return defaultBlocks[location]
+        return blocks[location]
     }
 
-    fun setBlock(location: Location, data: RegionBlock?) {
-        if (data == null) {
-            defaultBlocks.remove(location.clone())
+    fun setBlock(location: Location, data: RegionBlock) {
+        if (data == RegionBlock.air) {
+            blocks.remove(location)
         } else {
-            defaultBlocks[location.clone()] = data
+            blocks[location.clone()] = data
         }
     }
 

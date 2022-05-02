@@ -24,7 +24,14 @@ object PlayerRegionActionDigBlockPacket : PlayerRegionAction<OvilePlayerDigBlock
     override fun handle(player: Player, location: Location, region: Region, active: ActiveRegion, event: OvilePlayerDigBlockPacket) {
         event.isCancelled = true
         event.region = active
-        val regionBlock = active.getBlock(location) ?: RegionBlock.of(location.block)
+        // 无法破坏地图上的原始方块
+        // 这会导致服务端对玩家移动的错误判断，不代表需要拦截所有对原始方块的操作
+        val regionBlock = active.getBlock<RegionBlock>(location)
+        if (regionBlock == null || location.block.type.isSolid) {
+            player.sendRegionNotify(location, event.direction.toBukkit(), "player-action-original")
+            return
+        }
+        // 获取实现
         val matchBlockAction = regionBlock.matchBlockAction()
         if (matchBlockAction == null) {
             player.sendRegionNotify(location, event.direction.toBukkit(), "player-action-no-implementation", regionBlock.blockActionType())
