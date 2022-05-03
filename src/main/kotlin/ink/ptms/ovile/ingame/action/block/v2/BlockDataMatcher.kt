@@ -9,12 +9,12 @@ import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Ovile
- * ink.ptms.ovile.ingame.action.block.v2.PlayerDataMatcher
+ * ink.ptms.ovile.ingame.action.block.v2.BlockDataMatcher
  *
  * @author 坏黑
  * @since 2022/5/2 13:28
  */
-abstract class PlayerDataMatcher : PlayerBlockAction {
+abstract class BlockDataMatcher : PlayerBlockAction {
 
     fun ItemStack.getBlockData(): BlockData {
         return blockDataCacheMap.computeIfAbsent(type) { type.createBlockData() }

@@ -20,6 +20,7 @@ dependencies {
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11802:11802:universal")
     compileOnly("ink.ptms.core:v11802:11802:mapped")
+    compileOnly("ink.ptms.core:v11200:11200")
     compileOnly(fileTree("libs"))
 }
 

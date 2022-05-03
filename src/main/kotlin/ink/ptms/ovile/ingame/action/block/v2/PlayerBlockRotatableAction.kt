@@ -3,14 +3,10 @@ package ink.ptms.ovile.ingame.action.block.v2
 import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.ingame.action.block.BlockAction
-import ink.ptms.ovile.left
-import ink.ptms.ovile.relative
-import ink.ptms.ovile.right
 import org.bukkit.Axis
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.Orientable
-import org.bukkit.block.data.type.Chest
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -22,7 +18,7 @@ import org.bukkit.inventory.ItemStack
  * @since 2022/5/2 13:21
  */
 @BlockAction(BlockAction.Version.BLOCK_DATA)
-object PlayerBlockRotatableAction : PlayerDataMatcher() {
+object PlayerBlockRotatableAction : BlockDataMatcher() {
 
     override fun match(item: ItemStack): Boolean {
         return item.getBlockData().javaClass.simpleName == "CraftRotatable"
