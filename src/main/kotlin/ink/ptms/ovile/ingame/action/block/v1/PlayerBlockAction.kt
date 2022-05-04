@@ -20,7 +20,7 @@ object PlayerBlockAction : BlockStateMatcher() {
     }
 
     override fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace) {
-        region.setBlock(location, RegionBlock.of(item.type, item.durability.toInt()))
+        region.setBlock(location, RegionBlock.fromBlockState(item.type, item.durability.toInt()))
     }
 
     override fun breakBlock(player: Player, block: RegionBlock, location: Location, region: ActiveRegion) {

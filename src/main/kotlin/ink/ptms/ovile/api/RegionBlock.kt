@@ -38,7 +38,7 @@ interface RegionBlock {
             return BlockStateImpl(material, data)
         }
 
-        fun of(block: Block): RegionBlock {
+        fun fromBlock(block: Block): RegionBlock {
             return if (MinecraftVersion.majorLegacy > 11200) {
                 BlockDataImpl(block.blockData)
             } else {

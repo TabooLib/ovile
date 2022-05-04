@@ -39,7 +39,7 @@ object PlayerRegionActionUseItemPacket : PlayerRegionAction<OvilePlayerUseItemPa
                 return
             }
             // 摆放位置存在实体方块则触发合并逻辑
-            val original = active.getBlock(relativeLocation) ?: RegionBlock.of(relativeLocation.block)
+            val original = active.getBlock(relativeLocation) ?: RegionBlock.fromBlock(relativeLocation.block)
             if (original.material().isSolid) {
                 matchBlockAction.mergeBlock(player, heldItem, relativeLocation, active, blockFace, original)
             } else {

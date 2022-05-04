@@ -21,7 +21,7 @@ class ActiveRegion(val region: Region) {
     internal val entities = CopyOnWriteArraySet<Entity>()
 
     init {
-        blocks.putAll(region.blocks.map { it.key to ActiveRegionBlock(it.value) { RegionBlock.of(it.key.block) } })
+        blocks.putAll(region.blocks.map { it.key to ActiveRegionBlock(it.value) { RegionBlock.fromBlock(it.key.block) } })
     }
 
     fun getPlayers(): Set<Player> {
@@ -44,7 +44,7 @@ class ActiveRegion(val region: Region) {
      */
     fun setBlock(location: Location, data: RegionBlock) {
         val loc = location.clone()
-        blocks[loc] = ActiveRegionBlock(data) { region.blocks[loc] ?: RegionBlock.of(loc.block) }
+        blocks[loc] = ActiveRegionBlock(data) { region.blocks[loc] ?: RegionBlock.fromBlock(loc.block) }
         players.forEach { data.sendTo(it, location) }
     }
 
