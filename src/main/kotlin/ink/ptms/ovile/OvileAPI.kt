@@ -24,7 +24,7 @@ internal val notifyBaffle = Baffle.of(200, TimeUnit.MILLISECONDS)
 
 internal val ignoreBlockChangeMap = ConcurrentHashMap<String, MutableSet<Location>>()
 
-fun World.createRegion(min: Location, max: Location): Region {
+fun World.createRegion(min: Location, max: Location): Region? {
     return Ovile.create(min, max)
 }
 

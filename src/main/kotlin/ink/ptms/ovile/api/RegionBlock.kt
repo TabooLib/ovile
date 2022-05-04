@@ -2,12 +2,12 @@ package ink.ptms.ovile.api
 
 import ink.ptms.ovile.ingame.nms.BlockDataImpl
 import ink.ptms.ovile.ingame.nms.BlockStateImpl
+import ink.ptms.ovile.util.Version
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
-import taboolib.module.nms.MinecraftVersion
 
 /**
  * Ovile
@@ -26,10 +26,12 @@ interface RegionBlock {
 
     companion object {
 
-        val air = if (MinecraftVersion.majorLegacy > 11200) {
-            BlockDataImpl(Material.AIR.createBlockData())
-        } else {
-            BlockStateImpl(Material.AIR, 0)
+        val air by lazy {
+            if (Version.oldVersionSupport) {
+                BlockStateImpl(Material.AIR, 0)
+            } else {
+                BlockDataImpl(Material.AIR.createBlockData())
+            }
         }
 
         fun fromBlockData(data: Any): RegionBlock {
@@ -41,10 +43,10 @@ interface RegionBlock {
         }
 
         fun fromBlock(block: Block): RegionBlock {
-            return if (MinecraftVersion.majorLegacy > 11200) {
-                BlockDataImpl(block.blockData)
-            } else {
+            return if (Version.oldVersionSupport) {
                 BlockStateImpl(block.type, block.data.toInt())
+            } else {
+                BlockDataImpl(block.blockData)
             }
         }
     }

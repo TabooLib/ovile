@@ -5,6 +5,7 @@ import ink.ptms.ovile.ingame.action.block.BlockAction
 import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
 import ink.ptms.ovile.ingame.action.region.RegionAction
 import ink.ptms.ovile.ingame.action.region.PlayerRegionAction
+import ink.ptms.ovile.util.Version
 import taboolib.common.LifeCycle
 import taboolib.common.inject.Injector
 import taboolib.common.platform.Awake
@@ -30,13 +31,13 @@ object Loader : Injector.Classes {
                 when (clazz.getAnnotation(BlockAction::class.java).version) {
                     BlockAction.Version.BLOCK_DATA -> {
                         // 高版本（1.13+）
-                        if (MinecraftVersion.majorLegacy > 11200) {
+                        if (!Version.oldVersionSupport) {
                             Ovile.registerBlockAction(instance.get() as PlayerBlockAction)
                         }
                     }
                     BlockAction.Version.BLOCK_STATE -> {
                         // 低版本（1.13-）
-                        if (MinecraftVersion.majorLegacy < 11300) {
+                        if (Version.oldVersionSupport) {
                             Ovile.registerBlockAction(instance.get() as PlayerBlockAction)
                         }
                     }
