@@ -3,6 +3,7 @@ package ink.ptms.ovile.ingame.action.block.v2
 import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.ingame.action.block.BlockAction
+import ink.ptms.ovile.ingame.nms.BlockDataImpl
 import ink.ptms.ovile.left
 import ink.ptms.ovile.relative
 import ink.ptms.ovile.right
@@ -40,7 +41,7 @@ object PlayerBlockChestAction : BlockDataMatcher() {
             }
             // 处理合并
             val right = location.relative(data.facing.right())
-            val rightBlock = region.getBlock<RegionBlock.BlockDataImpl>(right)
+            val rightBlock = region.getBlock<BlockDataImpl>(right)
             val rightData = rightBlock?.data
             if (rightData is Chest && rightData.material == data.material && rightData.type == Chest.Type.SINGLE && rightData.facing == data.facing) {
                 data.type = Chest.Type.LEFT
@@ -48,7 +49,7 @@ object PlayerBlockChestAction : BlockDataMatcher() {
                 region.players.forEach { rightBlock.sendTo(it, right) }
             } else {
                 val left = location.relative(data.facing.left())
-                val leftBlock = region.getBlock<RegionBlock.BlockDataImpl>(left)
+                val leftBlock = region.getBlock<BlockDataImpl>(left)
                 val leftData = leftBlock?.data
                 if (leftData is Chest && leftData.material == data.material && leftData.type == Chest.Type.SINGLE && leftData.facing == data.facing) {
                     data.type = Chest.Type.RIGHT
@@ -64,14 +65,14 @@ object PlayerBlockChestAction : BlockDataMatcher() {
         // 拆分箱子
         val data = block.getBlockData() as Chest
         val right = location.relative(data.facing.right())
-        val rightBlock = region.getBlock<RegionBlock.BlockDataImpl>(right)
+        val rightBlock = region.getBlock<BlockDataImpl>(right)
         val rightData = rightBlock?.data
         if (rightData is Chest && rightData.material == data.material && rightData.type == Chest.Type.RIGHT && rightData.facing == data.facing) {
             rightData.type = Chest.Type.SINGLE
             region.players.forEach { rightBlock.sendTo(it, right) }
         } else {
             val left = location.relative(data.facing.left())
-            val leftBlock = region.getBlock<RegionBlock.BlockDataImpl>(left)
+            val leftBlock = region.getBlock<BlockDataImpl>(left)
             val leftData = leftBlock?.data
             if (leftData is Chest && leftData.material == data.material && leftData.type == Chest.Type.LEFT && leftData.facing == data.facing) {
                 leftData.type = Chest.Type.SINGLE
