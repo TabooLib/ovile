@@ -1,8 +1,8 @@
 package ink.ptms.ovile.ingame
 
-import ink.ptms.ovile.getRegion
-import ink.ptms.ovile.ignoreBlockChangeMap
-import ink.ptms.ovile.notifyBaffle
+import ink.ptms.ovile.OvileAPI.ignoreBlockChangeMap
+import ink.ptms.ovile.OvileAPI.notifyBaffle
+import ink.ptms.ovile.util.extension.getRegion
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent

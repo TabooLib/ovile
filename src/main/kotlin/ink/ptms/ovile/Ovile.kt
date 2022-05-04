@@ -3,6 +3,7 @@ package ink.ptms.ovile
 import ink.ptms.ovile.api.Region
 import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
 import ink.ptms.ovile.ingame.action.region.PlayerRegionAction
+import ink.ptms.ovile.util.extension.toCenter
 import org.bukkit.Location
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.disablePlugin
@@ -13,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.max
 import kotlin.math.min
 
+@Suppress("SpellCheckingInspection")
 object Ovile : Plugin() {
 
     internal val regions: MutableMap<String, MutableList<Region>> = ConcurrentHashMap()
