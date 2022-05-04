@@ -18,6 +18,8 @@ import taboolib.module.nms.MinecraftVersion
  */
 interface RegionBlock {
 
+    val blockActionType: String
+
     fun material(): Material
 
     fun sendTo(player: Player, location: Location)
@@ -33,7 +35,7 @@ interface RegionBlock {
         fun fromBlockData(data: Any): RegionBlock {
             return BlockDataImpl(data as BlockData)
         }
-        
+
         fun fromBlockState(material: Material, data: Int): RegionBlock {
             return BlockStateImpl(material, data)
         }
