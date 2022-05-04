@@ -5,9 +5,8 @@ import ink.ptms.ovile.api.event.packet.OvilePlayerBlockPlacePacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerDigBlockPacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerUseEntityPacket
 import ink.ptms.ovile.api.event.packet.OvilePlayerUseItemPacket
-import ink.ptms.ovile.getActiveRegion
 import ink.ptms.ovile.ingame.nms.NMS
-import ink.ptms.ovile.refreshBlock
+import ink.ptms.ovile.util.extension.refreshBlock
 import org.bukkit.Location
 import org.bukkit.util.Vector
 import taboolib.common.platform.event.SubscribeEvent

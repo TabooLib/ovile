@@ -1,6 +1,6 @@
 package ink.ptms.ovile.api
 
-import ink.ptms.ovile.Ovile
+import ink.ptms.ovile.OvileAPI
 import ink.ptms.ovile.api.event.OvilePlayerEnterRegionEvent
 import ink.ptms.ovile.api.event.OvilePlayerLeaveRegionEvent
 import org.bukkit.Location
@@ -15,7 +15,6 @@ import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.toProxyLocation
 import java.util.*
 import java.util.concurrent.CopyOnWriteArraySet
-import kotlin.collections.HashMap
 
 /**
  * @author 坏黑
@@ -51,7 +50,7 @@ class Region(val min: Location, val max: Location) : Box(min.x, min.y, min.z, ma
     }
 
     fun destroy() {
-        Ovile.regions[world.name]?.remove(this)
+        OvileAPI.regions[world.name]?.remove(this)
     }
 
     fun enter(player: Player) {
