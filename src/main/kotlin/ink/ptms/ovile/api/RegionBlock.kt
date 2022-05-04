@@ -1,5 +1,7 @@
 package ink.ptms.ovile.api
 
+import ink.ptms.ovile.ingame.nms.BlockDataImpl
+import ink.ptms.ovile.ingame.nms.BlockStateImpl
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -20,34 +22,6 @@ interface RegionBlock {
 
     fun sendTo(player: Player, location: Location)
 
-    /**
-     * 高版本实现（BlockData）
-     */
-    class BlockDataImpl(val data: BlockData) : RegionBlock {
-
-        override fun material(): Material {
-            return data.material
-        }
-
-        override fun sendTo(player: Player, location: Location) {
-            player.sendBlockChange(location, data)
-        }
-    }
-
-    /**
-     * 低版本实现（BlockState）
-     */
-    class BlockStateImpl(val material: Material, val data: Int) : RegionBlock {
-
-        override fun material(): Material {
-            return material
-        }
-
-        override fun sendTo(player: Player, location: Location) {
-            player.sendBlockChange(location, material, data.toByte())
-        }
-    }
-    
     companion object {
 
         val air = if (MinecraftVersion.majorLegacy > 11200) {
@@ -56,11 +30,11 @@ interface RegionBlock {
             BlockStateImpl(Material.AIR, 0)
         }
 
-        fun of(data: BlockData): RegionBlock {
-            return BlockDataImpl(data)
+        fun fromBlockData(data: Any): RegionBlock {
+            return BlockDataImpl(data as BlockData)
         }
         
-        fun of(material: Material, data: Int): RegionBlock {
+        fun fromBlockState(material: Material, data: Int): RegionBlock {
             return BlockStateImpl(material, data)
         }
 

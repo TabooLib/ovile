@@ -29,7 +29,7 @@ object PlayerBlockRotatableAction : BlockDataMatcher() {
     }
 
     override fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace) {
-        region.setBlock(location, RegionBlock.of(item.type.createBlockData { data ->
+        region.setBlock(location, RegionBlock.fromBlockData(item.type.createBlockData { data ->
             data as Orientable
             data.axis = when (blockFace) {
                 BlockFace.EAST, BlockFace.WEST -> Axis.X

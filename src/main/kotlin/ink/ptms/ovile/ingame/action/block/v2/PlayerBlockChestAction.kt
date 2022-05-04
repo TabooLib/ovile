@@ -31,7 +31,7 @@ object PlayerBlockChestAction : BlockDataMatcher() {
     }
 
     override fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace) {
-        region.setBlock(location, RegionBlock.of(item.type.createBlockData { data ->
+        region.setBlock(location, RegionBlock.fromBlockData(item.type.createBlockData { data ->
             data as Chest
             data.facing = player.facing.oppositeFace
             // 下蹲不合并
