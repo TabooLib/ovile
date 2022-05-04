@@ -4,12 +4,9 @@ import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.Region
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
-import ink.ptms.ovile.ingame.nms.BlockDataImpl
-import ink.ptms.ovile.ingame.nms.BlockStateImpl
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.World
-import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -104,14 +101,6 @@ internal fun RegionBlock.matchBlockAction(): PlayerBlockAction? {
 
 internal fun ItemStack.matchBlockAction(): PlayerBlockAction? {
     return Ovile.blockActions.firstOrNull { it.match(this) }
-}
-
-internal fun RegionBlock.blockActionType(): String {
-    return when (this) {
-        is BlockDataImpl -> data.javaClass.simpleName
-        is BlockStateImpl -> material.name
-        else -> "Error: ${javaClass.name}"
-    }
 }
 
 internal fun ItemStack.blockActionType(): String {

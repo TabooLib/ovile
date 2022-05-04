@@ -2,6 +2,7 @@ package ink.ptms.ovile.ingame.action.block.v2
 
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
+import ink.ptms.ovile.ingame.nms.BlockDataImpl
 import org.bukkit.Material
 import org.bukkit.block.data.BlockData
 import org.bukkit.inventory.ItemStack
@@ -21,7 +22,7 @@ abstract class BlockDataMatcher : PlayerBlockAction {
     }
 
     fun RegionBlock.getBlockData(): BlockData {
-        return (this as RegionBlock.BlockDataImpl).data
+        return (this as BlockDataImpl).data
     }
 
     companion object {
