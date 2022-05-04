@@ -55,7 +55,7 @@ object ListenerPlayerActionRegion {
     }
 
     fun getActions(bind: Class<*>): List<PlayerRegionAction<Any>> {
-        return Ovile.regionActions[bind] as? List<PlayerRegionAction<Any>> ?: emptyList()
+        return OvileAPI.regionActions[bind] as? List<PlayerRegionAction<Any>> ?: emptyList()
     }
 
     /**

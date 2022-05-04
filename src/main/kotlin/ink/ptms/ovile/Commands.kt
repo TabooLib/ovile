@@ -25,7 +25,7 @@ object Commands {
                 player.sendLang("player-create-area-fail-by-points")
                 return@execute
             }
-            if (Ovile.create(FunctionCreateArea.selectPoints[0], FunctionCreateArea.selectPoints[1]) == null) {
+            if (OvileAPI.create(FunctionCreateArea.selectPoints[0], FunctionCreateArea.selectPoints[1]) == null) {
                 player.sendLang("player-create-area-fail-by-conflict")
                 return@execute
             }
