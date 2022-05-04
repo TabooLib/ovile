@@ -22,6 +22,7 @@ import taboolib.module.nms.PacketReceiveEvent
  * @author 坏黑
  * @since 2022/5/1 20:17
  */
+@Suppress("DuplicatedCode")
 object ListenerPlayerPacket {
 
     @SubscribeEvent

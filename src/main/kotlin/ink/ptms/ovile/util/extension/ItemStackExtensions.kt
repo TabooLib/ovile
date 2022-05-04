@@ -1,6 +1,5 @@
 package ink.ptms.ovile.util.extension
 
-import ink.ptms.ovile.Ovile
 import ink.ptms.ovile.OvileAPI
 import ink.ptms.ovile.ingame.action.block.PlayerBlockAction
 import org.bukkit.inventory.ItemStack
