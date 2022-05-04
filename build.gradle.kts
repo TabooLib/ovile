@@ -6,7 +6,7 @@ plugins {
 }
 
 taboolib {
-    install("common", "common-5", "module-nms", "module-nms-util", "module-effect", "module-lang", "module-chat", "module-configuration", "platform-bukkit")
+    install("common", "common-5", "module-nms", "module-nms-util", "module-effect", "module-lang", "module-chat", "module-configuration", "platform-bukkit", "expansion-command-helper")
     classifier = null
     version = "6.0.7-59"
     options("keep-kotlin-module")
