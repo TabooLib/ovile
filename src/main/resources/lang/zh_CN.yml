@@ -1,3 +1,7 @@
 player-action-across-regions: "§cYou can't do anything across ovile regions."
 player-action-no-implementation: '§cThe block action of {0} is not implemented.'
 player-action-original: "§cYou can't destroy original block"
+player-a-point-select: "§cPoint a is now selected."
+player-b-point-select: "§cPoint b is now selected."
+player-create-area-fail: "§cSorry, but you have not selected the correct point"
+player-create-area-succ: "§aThe region has been created successfully"
