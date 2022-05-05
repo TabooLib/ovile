@@ -27,7 +27,7 @@ interface RegionBlock {
     companion object {
 
         val air by lazy {
-            if (Version.oldVersionSupport) {
+            if (Version.isLegacyVersion) {
                 BlockStateImpl(Material.AIR, 0)
             } else {
                 BlockDataImpl(Material.AIR.createBlockData())
@@ -43,7 +43,7 @@ interface RegionBlock {
         }
 
         fun fromBlock(block: Block): RegionBlock {
-            return if (Version.oldVersionSupport) {
+            return if (Version.isLegacyVersion) {
                 BlockStateImpl(block.type, block.data.toInt())
             } else {
                 BlockDataImpl(block.blockData)

@@ -30,13 +30,13 @@ object Loader : Injector.Classes {
                 when (clazz.getAnnotation(BlockAction::class.java).version) {
                     BlockAction.Version.BLOCK_DATA -> {
                         // 高版本（1.13+）
-                        if (!Version.oldVersionSupport) {
+                        if (!Version.isLegacyVersion) {
                             OvileAPI.registerBlockAction(instance.get() as PlayerBlockAction)
                         }
                     }
                     BlockAction.Version.BLOCK_STATE -> {
                         // 低版本（1.13-）
-                        if (Version.oldVersionSupport) {
+                        if (Version.isLegacyVersion) {
                             OvileAPI.registerBlockAction(instance.get() as PlayerBlockAction)
                         }
                     }

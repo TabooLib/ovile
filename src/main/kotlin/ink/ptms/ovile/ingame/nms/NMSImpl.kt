@@ -20,7 +20,7 @@ import taboolib.module.nms.sendPacket
 class NMSImpl : NMS() {
 
     override fun sendBlockAction(player: Player, block: Location, a: Int, b: Int) {
-        if (Version.oldVersionSupport) {
+        if (Version.isLegacyVersion) {
             val position = net.minecraft.server.v1_12_R1.BlockPosition(block.x, block.y, block.z)
             player.sendPacket(net.minecraft.server.v1_12_R1.PacketPlayOutBlockAction(position, net.minecraft.server.v1_12_R1.Blocks.CHEST, a, b))
         } else {

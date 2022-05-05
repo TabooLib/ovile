@@ -34,6 +34,7 @@ object OvileAPI {
         // 检查重叠
         regions.values.forEach {
             it.forEach { region ->
+                // TODO 这种判定必然是不可行的，有待改良
                 if (region.contains(minPos, maxPos)) {
                     return null
                 }
