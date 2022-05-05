@@ -10,4 +10,14 @@ package ink.ptms.ovile.api.block
 interface LegacyBlockData {
 
     fun getState(): Int
+
+    companion object {
+
+        val generic = object : LegacyBlockData {
+
+            override fun getState(): Int {
+                return 0
+            }
+        }
+    }
 }

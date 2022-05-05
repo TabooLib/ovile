@@ -25,7 +25,7 @@ class LegacyChest(override var facing: BlockFace, var type: Type) : LegacyDirect
         // 在 Paper 1.12.2 服务端环境下测试的结果, 其他子版本 & 低版本未确认是否一致
         val facingMap = mapOf(BlockFace.NORTH to 2, BlockFace.SOUTH to 3, BlockFace.WEST to 4, BlockFace.EAST to 5)
 
-        fun wrapper(data: Int): LegacyChest {
+        fun wrapper(data: Byte): LegacyChest {
             TODO()
         }
     }

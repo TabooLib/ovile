@@ -2,6 +2,7 @@ package ink.ptms.ovile.api.block
 
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.block.Chest
 
 /**
  * Ovile
@@ -13,10 +14,16 @@ import org.bukkit.block.Block
 object LegacyBlock {
 
     fun getBlockData(block: Block): LegacyBlockData {
-        TODO()
+        return when (block.state) {
+            is Chest -> LegacyChest.wrapper(block.data)
+            else -> LegacyBlockData.generic
+        }
     }
 
     fun createBlockData(material: Material): LegacyBlockData {
-        TODO()
+        return when (material) {
+            Material.CHEST, Material.TRAPPED_CHEST -> LegacyChest.wrapper(0)
+            else -> LegacyBlockData.generic
+        }
     }
 }
