@@ -4,11 +4,9 @@ import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.Region
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.api.event.packet.OvilePlayerDigBlockPacket
-import ink.ptms.ovile.blockActionType
-import ink.ptms.ovile.matchBlockAction
-import ink.ptms.ovile.sendRegionNotify
+import ink.ptms.ovile.util.extension.matchBlockAction
+import ink.ptms.ovile.util.extension.sendRegionNotify
 import org.bukkit.Location
-import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 
 /**

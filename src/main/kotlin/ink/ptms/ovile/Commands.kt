@@ -22,10 +22,13 @@ object Commands {
     val create = subCommand {
         execute<Player> { player, _, _ ->
             if (!FunctionCreateArea.isLegalLocation()) {
-                player.sendLang("player-create-area-fail")
+                player.sendLang("player-create-area-fail-by-points")
                 return@execute
             }
-            Ovile.create(FunctionCreateArea.selectPoints[0], FunctionCreateArea.selectPoints[1])
+            if (OvileAPI.create(FunctionCreateArea.selectPoints[0], FunctionCreateArea.selectPoints[1]) == null) {
+                player.sendLang("player-create-area-fail-by-conflict")
+                return@execute
+            }
             player.sendLang("player-create-area-succ")
         }
     }

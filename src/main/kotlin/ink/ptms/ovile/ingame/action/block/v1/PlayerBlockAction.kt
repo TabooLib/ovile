@@ -3,6 +3,9 @@ package ink.ptms.ovile.ingame.action.block.v1
 import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.ingame.action.block.BlockAction
+import ink.ptms.ovile.ingame.action.block.v1.PlayerBlockChestAction.getFacingDirection
+import ink.ptms.ovile.util.extension.isChest
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
@@ -20,6 +23,12 @@ object PlayerBlockAction : BlockStateMatcher() {
     }
 
     override fun placeBlock(player: Player, item: ItemStack, location: Location, region: ActiveRegion, blockFace: BlockFace) {
+        if (item.type.isChest) {
+            val direction = player.getFacingDirection().oppositeFace
+            val state = PlayerBlockChestAction.chestDirection2IntMapping[direction]!!
+            region.setBlock(location, RegionBlock.fromBlockState(item.type, state))
+            return
+        }
         region.setBlock(location, RegionBlock.fromBlockState(item.type, item.durability.toInt()))
     }
 

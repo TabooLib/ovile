@@ -4,9 +4,9 @@ import ink.ptms.ovile.api.ActiveRegion
 import ink.ptms.ovile.api.RegionBlock
 import ink.ptms.ovile.ingame.action.block.BlockAction
 import ink.ptms.ovile.ingame.nms.BlockDataImpl
-import ink.ptms.ovile.left
-import ink.ptms.ovile.relative
-import ink.ptms.ovile.right
+import ink.ptms.ovile.util.extension.left
+import ink.ptms.ovile.util.extension.relative
+import ink.ptms.ovile.util.extension.right
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.type.Chest

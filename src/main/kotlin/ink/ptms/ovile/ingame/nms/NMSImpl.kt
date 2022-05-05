@@ -1,5 +1,6 @@
 package ink.ptms.ovile.ingame.nms
 
+import ink.ptms.ovile.util.Version
 import net.minecraft.server.v1_16_R1.Vec3D
 import net.minecraft.server.v1_16_R3.BlockPosition
 import net.minecraft.server.v1_16_R3.Blocks
@@ -7,7 +8,6 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutBlockAction
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.sendPacket
 
 /**
@@ -20,12 +20,12 @@ import taboolib.module.nms.sendPacket
 class NMSImpl : NMS() {
 
     override fun sendBlockAction(player: Player, block: Location, a: Int, b: Int) {
-        if (MinecraftVersion.majorLegacy >= 11300) {
-            val position = BlockPosition(block.x, block.y, block.z)
-            player.sendPacket(PacketPlayOutBlockAction(position, Blocks.CHEST, a, b))
-        } else {
+        if (Version.oldVersionSupport) {
             val position = net.minecraft.server.v1_12_R1.BlockPosition(block.x, block.y, block.z)
             player.sendPacket(net.minecraft.server.v1_12_R1.PacketPlayOutBlockAction(position, net.minecraft.server.v1_12_R1.Blocks.CHEST, a, b))
+        } else {
+            val position = BlockPosition(block.x, block.y, block.z)
+            player.sendPacket(PacketPlayOutBlockAction(position, Blocks.CHEST, a, b))
         }
     }
 
