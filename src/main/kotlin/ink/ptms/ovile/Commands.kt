@@ -29,7 +29,7 @@ object Commands {
                 player.sendLang("player-create-area-fail-by-conflict")
                 return@execute
             }
-            player.sendLang("player-create-area-succ")
+            player.sendLang("player-create-area-success")
         }
     }
 }

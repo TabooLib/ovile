@@ -1,14 +1,25 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "1.38"
-    id("org.jetbrains.kotlin.jvm") version "1.5.10"
+    id("io.izzel.taboolib") version "1.50"
+    id("org.jetbrains.kotlin.jvm") version "1.5.31"
 }
 
 taboolib {
-    install("common", "common-5", "module-nms", "module-nms-util", "module-effect", "module-lang", "module-chat", "module-configuration", "platform-bukkit", "expansion-command-helper")
+    install(
+        "common",
+        "common-5",
+        "module-nms",
+        "module-nms-util",
+        "module-effect",
+        "module-lang",
+        "module-chat",
+        "module-configuration",
+        "platform-bukkit",
+        "expansion-command-helper"
+    )
     classifier = null
-    version = "6.0.7-59"
+    version = "6.0.10-71"
     options("keep-kotlin-module")
 }
 
